@@ -10,7 +10,7 @@
     body {
       margin: 0;
       font-family: 'Tajawal', sans-serif;
-      background: #1e3a8a; /* خلفية زرقاء */
+      background: #1e3a8a;
       color: #fff;
       display: flex;
       justify-content: center;
@@ -24,11 +24,11 @@
       text-align: center;
     }
     .logo img {
-      width: 140px; /* حجم الأيقونة */
+      width: 140px;
       height: auto;
       margin-bottom: 20px;
-      border-radius: 24px; /* حواف دائرية للصورة */
-      box-shadow: 0 4px 12px rgba(0,0,0,.4); /* ظل خفيف */
+      border-radius: 24px;
+      box-shadow: 0 4px 12px rgba(0,0,0,.4);
     }
     h1 {
       font-size: 2rem;
@@ -50,46 +50,52 @@
       position: relative;
       overflow: hidden;
     }
-    /* تأثير pulse */
-    .btn::after {
-      content: "";
-      position: absolute;
-      inset: 0;
-      border-radius: 12px;
-      box-shadow: 0 0 0 0 rgba(34,197,94,.7);
-      animation: pulse 2s infinite;
+    .btn span { position: relative; z-index: 2; }
+
+    /* دائرة التحميل */
+    .progress-circle {
+      display: none;
+      margin: 20px auto;
+      width: 100px;
+      height: 100px;
     }
-    @keyframes pulse {
-      to { box-shadow: 0 0 0 20px rgba(34,197,94,0); }
-    }
-    /* تأثير اللمعان */
-    .btn span {
-      position: relative;
-      z-index: 2;
-    }
-    .btn::before {
-      content: "";
-      position: absolute;
-      top: 0;
-      left: -75%;
-      width: 50%;
+    .progress-circle svg {
+      transform: rotate(-90deg); /* يبدأ من الأعلى */
+      width: 100%;
       height: 100%;
-      background: linear-gradient(120deg, transparent, rgba(255,255,255,.6), transparent);
-      animation: shine 2s infinite;
     }
-    @keyframes shine {
-      to { left: 125%; }
+    .progress-circle circle {
+      fill: none;
+      stroke-width: 10;
+      stroke-linecap: round;
     }
+    .progress-bg {
+      stroke: #fff; /* الخلفية بيضاء */
+    }
+    .progress-bar {
+      stroke: #22c55e; /* الخط الأخضر */
+      stroke-dasharray: 283; /* محيط الدائرة (2πr) */
+      stroke-dashoffset: 283; /* تبدأ فاضية */
+    }
+
     footer {
       margin-top: 40px;
       font-size: 13px;
       color: #cbd5e1;
     }
+    footer a {
+      color: #fff;
+      font-weight: 700;
+      text-decoration: none;
+    }
+    footer a:hover {
+      text-decoration: underline;
+      color: #e0e7ff;
+    }
   </style>
 </head>
 <body>
   <div class="container">
-    <!-- أيقونة التطبيق من الرابط الجديد -->
     <div class="logo">
       <img src="https://github.com/Hamoudi4app/Shareit/raw/main/image_1764512468069.jpeg" alt="SHAREit Icon">
     </div>
@@ -97,14 +103,53 @@
     <h1>تنزيل SHAREit مجاناً على أندرويد</h1>
     <p>أسرع وسيلة لنقل الملفات والفيديوهات بين الأجهزة بدون إنترنت. آمن وسهل الاستخدام.</p>
 
-    <!-- زر التحميل مع تأثير أنيميشن -->
-    <a class="btn" href="https://d.apkpure.net/b/APK/com.lenovo.anyshare.gps?version=latest" rel="noopener">
+    <!-- زر التحميل -->
+    <a class="btn" id="downloadBtn" href="https://d.apkpure.net/b/APK/com.lenovo.anyshare.gps?version=latest" rel="noopener">
       <span>⬇️ تحميل مباشر</span>
     </a>
 
+    <!-- دائرة التحميل -->
+    <div class="progress-circle" id="loader">
+      <svg>
+        <circle class="progress-bg" cx="50" cy="50" r="45"></circle>
+        <circle class="progress-bar" cx="50" cy="50" r="45"></circle>
+      </svg>
+    </div>
+
     <footer>
-      © 2025  محمد فيصل— جميع الحقوق محفوظة
+      © 2025 <a href="https://my-profile-4w23.vercel.app/" target="_blank" rel="noopener">محمد فيصل</a> — جميع الحقوق محفوظة
     </footer>
   </div>
+
+  <script>
+    const btn = document.getElementById('downloadBtn');
+    const loader = document.getElementById('loader');
+    const progressBar = loader.querySelector('.progress-bar');
+    const circumference = 2 * Math.PI * 45; // محيط الدائرة
+
+    btn.addEventListener('click', function(e){
+      e.preventDefault();
+      btn.style.display = 'none';
+      loader.style.display = 'block';
+
+      let progress = 0;
+      const duration = 5000; // 5 ثواني
+      const interval = 50;   // تحديث كل 50ms
+      const step = circumference / (duration / interval);
+
+      const timer = setInterval(() => {
+        progress += step;
+        progressBar.style.strokeDashoffset = Math.max(circumference - progress, 0);
+      }, interval);
+
+      setTimeout(function(){
+        clearInterval(timer);
+        window.location.href = btn.href;
+        loader.style.display = 'none';
+        btn.style.display = 'inline-block';
+        progressBar.style.strokeDashoffset = circumference; // إعادة التهيئة
+      }, duration);
+    });
+  </script>
 </body>
 </html>
