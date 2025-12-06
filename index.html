@@ -5,6 +5,11 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>تحميل SHAREit APK | </title>
   <meta name="description" content="تنزيل مجاني وآمن لتطبيق SHAREit على أندرويد. أسرع وسيلة لنقل الملفات والفيديوهات بين الأجهزة.">
+
+  <!-- كود AdSense للإعلانات التلقائية -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7744635661972873"
+          crossorigin="anonymous"></script>
+
   <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
   <style>
     body {
@@ -60,7 +65,7 @@
       height: 100px;
     }
     .progress-circle svg {
-      transform: rotate(-90deg); /* يبدأ من الأعلى */
+      transform: rotate(-90deg);
       width: 100%;
       height: 100%;
     }
@@ -70,12 +75,12 @@
       stroke-linecap: round;
     }
     .progress-bg {
-      stroke: #fff; /* الخلفية بيضاء */
+      stroke: #fff;
     }
     .progress-bar {
-      stroke: #22c55e; /* الخط الأخضر */
-      stroke-dasharray: 283; /* محيط الدائرة (2πr) */
-      stroke-dashoffset: 283; /* تبدأ فاضية */
+      stroke: #22c55e;
+      stroke-dasharray: 283;
+      stroke-dashoffset: 283;
     }
 
     footer {
@@ -125,7 +130,7 @@
     const btn = document.getElementById('downloadBtn');
     const loader = document.getElementById('loader');
     const progressBar = loader.querySelector('.progress-bar');
-    const circumference = 2 * Math.PI * 45; // محيط الدائرة
+    const circumference = 2 * Math.PI * 45;
 
     btn.addEventListener('click', function(e){
       e.preventDefault();
@@ -133,8 +138,8 @@
       loader.style.display = 'block';
 
       let progress = 0;
-      const duration = 5000; // 5 ثواني
-      const interval = 50;   // تحديث كل 50ms
+      const duration = 5000;
+      const interval = 50;
       const step = circumference / (duration / interval);
 
       const timer = setInterval(() => {
@@ -147,7 +152,7 @@
         window.location.href = btn.href;
         loader.style.display = 'none';
         btn.style.display = 'inline-block';
-        progressBar.style.strokeDashoffset = circumference; // إعادة التهيئة
+        progressBar.style.strokeDashoffset = circumference;
       }, duration);
     });
   </script>
